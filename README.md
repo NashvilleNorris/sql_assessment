@@ -126,39 +126,68 @@ ORDER BY ave_character_count DESC
 --Joy
 
 --b. Convert the query you wrote in part a into a CTE. Then find the 5 most intense poems that express joy and whether they are to be longer or shorter than the average joy poem.   
---*****I tried adding a case when statement to get it to show if a poem was longer or shorter than average but couldn't get it to run correctly. When you run it in that specific CTE, it works as it is intended, I just couldn't get it to run with the whole query
 
 WITH intensity AS (
-		SELECT intensity_percent, emotion_id, poem_id
-		FROM poem_emotion
-		WHERE emotion_id = '4'
-		ORDER BY intensity_percent DESC
-		LIMIT 6
-		),
+		
+  SELECT intensity_percent, emotion_id, poem_id
+		
+  FROM poem_emotion
+		
+  WHERE emotion_id = '4'
+		
+  ORDER BY intensity_percent DESC
+		
+  LIMIT 6
+		
+  ),
+
 poem_title AS (
-		SELECT title, char_count, text
-		FROM poem
-		),
-	ave_char_count AS (
-		SELECT char_count, CASE
-		WHEN char_count >= 221 THEN 'longer than average'
-		WHEN char_count < 220 THEN 'less than average'
-		ELSE 'average'
-		END AS poem_length
-		FROM poem
-		INNER JOIN poem_emotion
-		ON poem.id = poem_emotion.poem_id
-		)
-	SELECT title AS poem_title, CONCAT(intensity_percent, '%') AS intensity_percent, char_count, text AS poem
-	FROM poem
-	INNER JOIN intensity
-	ON poem.id = intensity.poem_id
-	INNER JOIN emotion
-	ON intensity.emotion_id = emotion.id
-	WHERE emotion_id = '4'
-	GROUP BY title, char_count, intensity_percent, text
-	ORDER BY intensity_percent DESC
-	LIMIT 6
+		
+  SELECT title, char_count, text
+		
+  FROM poem
+		
+  ),
+	
+ ave_char_count AS (
+		
+  SELECT char_count, CASE
+		
+  WHEN char_count >= 221 THEN 'longer than average'
+		
+  WHEN char_count < 220 THEN 'less than average'
+		
+  ELSE 'average'
+		
+  END AS poem_length
+		
+  FROM poem
+		
+  INNER JOIN poem_emotion
+		
+  ON poem.id = poem_emotion.poem_id
+		
+  )
+	
+ SELECT title AS poem_title, CONCAT(intensity_percent, '%') AS intensity_percent, char_count, text AS poem
+	
+ FROM poem
+	
+ INNER JOIN intensity
+	
+ ON poem.id = intensity.poem_id
+	
+ INNER JOIN emotion
+	
+ ON intensity.emotion_id = emotion.id
+	
+ WHERE emotion_id = '4'
+	
+ GROUP BY title, char_count, intensity_percent, text
+	
+ ORDER BY intensity_percent DESC
+	
+ LIMIT 6
 	
     --What is the most joyful poem about?
 
