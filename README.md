@@ -285,17 +285,28 @@ LIMIT 5
     --c. Which of these do you like the best?
 --Horse by the 5th grader
 
--- 5. Emily Dickinson was a famous American poet, who wrote many poems in the 1800s
--- 	a. Examine the poets in the database with the name `emily`. Create a report showing the count of emilys by grade along with the distribution of emotions that characterize their work.
+		-- 5. Emily Dickinson was a famous American poet, who wrote many poems in the 1800s, examine the poets in the database with the name `emily`. Create a report showing the count of emilys by grade along with the distribution of emotions that characterize their work.
+
 --I included the author_id column to show these were multiple entries by the same author
+
 SELECT a.name, a.grade_id AS grade_level, p.author_id, e.name AS emotion
+
 FROM author AS a
+
 INNER JOIN poem AS p
+
 ON a.id = p.author_id
+
 INNER JOIN poem_emotion AS pe
+
 ON p.id = pe.poem_id
+
 INNER JOIN emotion AS e
+
 ON pe.emotion_id = e.id
+
 WHERE a.name ILIKE 'emily'
+
 GROUP BY a.name, p.author_id, a.grade_id, e.name
+
 ORDER BY a.grade_id
